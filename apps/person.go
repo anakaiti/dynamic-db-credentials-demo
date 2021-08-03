@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -15,9 +14,9 @@ type PersonService struct {
 }
 
 type Person struct {
-	FirstName string `json:"firstName"`
-	SecondName string `json:"secondName"`
-	Email string `json:"email"`
+	FirstName string `json:"firstName" db:"first_name"`
+	SecondName string `json:"secondName" db:"second_name"`
+	Email string `json:"email" db:"email"`
 }
 
 func (s *PersonService) createPerson(w http.ResponseWriter, r *http.Request) {
@@ -34,7 +33,6 @@ func (s *PersonService) createPerson(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(400), 400)
 		return
 	}
-	fmt.Println(person)
 	_, err = s.db.Exec("INSERT INTO person (first_name, second_name, email) VALUES ($1, $2, $3)", person.FirstName, person.SecondName, person.Email)
 	if err != nil {
 		log.Println(err)
@@ -42,6 +40,17 @@ func (s *PersonService) createPerson(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Write([]byte("Person Created"))
+}
+
+func (s *PersonService) getAllPerson(w http.ResponseWriter, r *http.Request) {
+	people := []Person{}
+	err := s.db.Select(&people, "SELECT * FROM person ORDER BY first_name ASC")
+	if err != nil {
+		log.Println(err)
+		http.Error(w, http.StatusText(500), 500)
+		return
+	}
+	json.NewEncoder(w).Encode(people)
 }
 
 func NewPerson(db *sqlx.DB) *PersonService {

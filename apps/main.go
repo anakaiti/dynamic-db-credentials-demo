@@ -22,9 +22,7 @@ func main() {
 	r.Use(middleware.Logger)
 	r.Route("/persons", func (r chi.Router) {
 		r.Post("/", service.createPerson)
-	})
-	r.Get("/persons", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("hello world"))
+		r.Get("/", service.getAllPerson)
 	})
 	http.ListenAndServe(":3000", r)
 }
