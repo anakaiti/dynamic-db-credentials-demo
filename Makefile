@@ -1,2 +1,2 @@
 go-run:
-	go run apps/main.go
+	go run apps/*.go
