@@ -18,3 +18,5 @@ minikube:
 	kubectl apply -f manifest/namespace.yml
 
 run: minikube build db-up app-up
+
+update: db-up app-up
