@@ -3,3 +3,6 @@ go-run:
 
 build:
 	docker build -t test-demo .
+
+db-up:
+	kubectl apply -f manifest/postgres.yml
