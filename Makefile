@@ -2,7 +2,8 @@ go-run:
 	go run apps/*.go
 
 build:
-	docker build -t test-demo .
+	docker build -t localhost:5000/test-demo .
+	docker push localhost:5000
 
 db-up:
 	kubectl apply -f manifest/db-sts.yml --namespace=demo

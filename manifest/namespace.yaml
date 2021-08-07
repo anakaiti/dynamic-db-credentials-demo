@@ -4,3 +4,8 @@ metadata:
   name: demo
   labels:
     name: demo
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: vault-infra

@@ -1,0 +1,74 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vault
+  namespace: vault-infra
+spec:
+  minReadySeconds: 1
+  progressDeadlineSeconds: 10
+  selector:
+    matchLabels:
+      app: vault
+  template:
+    metadata:
+      labels:
+        app: vault
+    spec:
+      serviceAccountName: vault-tokenreview
+      containers:
+        - env:
+            - name: VAULT_DEV_ROOT_TOKEN_ID
+              value: root
+          image: vault:1.8.0
+          imagePullPolicy: IfNotPresent
+          name: postgresql
+          ports:
+            - containerPort: 8200
+              name: vault
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          securityContext:
+            capabilities:
+              add:
+                - IPC_LOCK
+            runAsUser: 0
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vault
+  namespace: vault-infra
+  labels:
+    app: vault
+spec:
+  type: NodePort
+  ports:
+    - port: 8200
+      name: vault
+  selector:
+    app: vault
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vault-tokenreview
+  namespace: vault-infra
+  labels:
+    name: vault-tokenreview
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: vault-tokenreview
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:auth-delegator
+subjects:
+  - kind: ServiceAccount
+    name: vault-tokenreview
+    namespace: vault-infra
