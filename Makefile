@@ -6,12 +6,12 @@ build:
 	docker push localhost:5000
 
 db-up:
-	kubectl apply -f manifest/db-sts.yml
-	kubectl apply -f manifest/db-svc.yml
+	kubectl apply -f manifest/db-sts.yaml
+	kubectl apply -f manifest/db-svc.yaml
 
 app-up:
-	kubectl apply -f manifest/app-dep.yml
-	kubectl apply -f manifest/app-svc.yml
+	kubectl apply -f manifest/app-dep.yaml
+	kubectl apply -f manifest/app-svc.yaml
 
 vault-up:
 	kubectl apply -f manifest/vault-infra.yaml
@@ -19,8 +19,7 @@ vault-up:
 
 minikube:
 	minikube start
-	eval $(minikube docker-env)
-	kubectl apply -f manifest/namespace.yml
+	kubectl apply -f manifest/namespace.yaml
 
 run: minikube build db-up app-up
 
