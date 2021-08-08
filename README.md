@@ -1,14 +1,5 @@
 # dynamic-db-credentials-demo
 
-## Initial Setup
-
-
-```sh
-minikube start --insecure-registry "10.0.0.0/24"
-minikube addons enable registry
-docker run --rm -it --network=host alpine ash -c "apk add socat && socat TCP-LISTEN:5000,reuseaddr,fork TCP:$(minikube ip):5000"
-
-```
 ## Flow
 
 1. create simple app & postgres
