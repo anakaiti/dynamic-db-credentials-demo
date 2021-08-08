@@ -34,4 +34,3 @@ echo '{
 # vault auth enable oidc
 vault secrets enable kv-v2
 vault kv put kv-v2/app db_host=postgres-db.demo.svc.cluster.local
-
