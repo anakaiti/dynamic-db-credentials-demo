@@ -26,6 +26,9 @@ echo '{
     "bound_audiences": "'"$OIDC_CLIENT_ID"'",
     "allowed_redirect_uris": "http://localhost:8200/ui/vault/auth/oidc/oidc/callback",
     "allowed_redirect_uris": "http://localhost:8200/oidc/callback",
-    "user_claim": "sub",
+    "user_claim": "email",
+    "bound_claims_type": "glob",
+    "oidc_scopes": ["email"],
+    "bound_claims": {"email": ["sebastianus.kurniawan@gmail.com"]},
     "policies": "manager"
 }' | vault write auth/oidc/role/manager -

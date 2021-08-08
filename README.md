@@ -3,6 +3,9 @@
 ## Flow
 
 1. create simple app & postgres
+```
+make init
+```
 2. create vault server
 3. setup secret engine
 4. setup VSWH

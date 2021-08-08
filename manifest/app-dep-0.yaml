@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app
+  namespace: demo
+spec:
+  selector:
+    matchLabels:
+      app: demo-app
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: demo-app
+    spec:
+      containers:
+        - name: demo-app
+          image: ghcr.io/anakaiti/dynamic-db-credentials-demo
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DB_CONN
+              value: "host=postgres-db.demo.svc.cluster.local port=5432 user=postgres dbname=postgres password=postgres sslmode=disable"
+            - name: PORT
+              value: "3000"
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
