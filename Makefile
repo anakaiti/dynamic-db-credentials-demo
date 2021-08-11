@@ -10,6 +10,9 @@ db-up:
 	kubectl apply -f manifest/db-dep.yaml
 	kubectl apply -f manifest/db-svc.yaml
 
+db-init:
+	psql -f scripts/sql/init.sql -h localhost -p 5432 -U postgres postgres
+
 app-0-up:
 	kubectl apply -f manifest/app-dep-0.yaml
 	kubectl apply -f manifest/app-svc.yaml
@@ -50,6 +53,6 @@ step3: vault-up
 
 step4: fwd-vault
 
-step5: vault-config
+step5: db-init vault-config
 
 step6: app-up
