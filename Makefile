@@ -7,7 +7,7 @@ minikube:
 	kubectl apply -f manifest/namespace.yaml
 
 db-up:
-	kubectl apply -f manifest/db-sts.yaml
+	kubectl apply -f manifest/db-dep.yaml
 	kubectl apply -f manifest/db-svc.yaml
 
 app-0-up:
