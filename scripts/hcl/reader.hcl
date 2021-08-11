@@ -2,3 +2,7 @@
 path "/secret/*" {
     capabilities = ["read", "list"]
 }
+
+path "/database/creds/viewer" {
+    capabilities = ["create", "read", "update", "delete", "list"]
+}

@@ -30,23 +30,17 @@ vault-config:
 fwd-db:
 	tmux new-session -d -s forward-postgres './scripts/forward-postgres.sh'
 
-rm-fwd-db:
-	tmux kill-session -t forward-postgres
-
 fwd-app:
 	tmux new-session -d -s forward-app './scripts/forward-app.sh'
-
-rm-fwd-app:
-	tmux kill-session -t forward-app
 
 fwd-vault:
 	tmux new-session -d -s forward-vault './scripts/forward-vault.sh'
 
-rm-fwd-vault:
-	tmux kill-session -t forward-vault
-
 clean:
 	kubectl delete -f manifest/
+	tmux kill-session -t forward-postgres
+	tmux kill-session -t forward-vault
+	tmux kill-session -t forward-app
 
 step1: build minikube db-up app-0-up
 

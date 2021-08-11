@@ -1,0 +1,2 @@
+CREATE ROLE viewer;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO viewer;
